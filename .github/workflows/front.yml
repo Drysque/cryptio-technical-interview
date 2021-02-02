@@ -1,0 +1,41 @@
+name: React CI
+
+on:
+  pull_request:
+    paths:
+      - "front/**"
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        working-directory: ./front
+        run: npm i
+      - name: Build project
+        working-directory: ./front
+        run: npm run build
+        env:
+          CI: true
+
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        working-directory: ./front
+        run: npm i
+      - name: Build project
+        working-directory: ./front
+        run: npm run lint
+        env:
+          CI: true

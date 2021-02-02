@@ -1,0 +1,15 @@
+version: "3"
+services:
+  front:
+    build: front
+    volumes:
+      - ./front:/app
+    ports:
+      - 3000:3000
+
+  back:
+    build: back
+    volumes:
+      - ./back:/app
+    ports:
+      - 8080:8080

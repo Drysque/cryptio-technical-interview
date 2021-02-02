@@ -1,0 +1,24 @@
+name: Express CI
+
+on:
+  pull_request:
+    paths:
+      - "back/**"
+
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Install dependencies
+        working-directory: ./back
+        run: npm i
+      - name: Build project
+        working-directory: ./back
+        run: npm run lint
+        env:
+          CI: true
