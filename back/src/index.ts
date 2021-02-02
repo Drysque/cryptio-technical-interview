@@ -1,5 +1,9 @@
 import express from 'express';
 import cors from 'cors';
+import * as env from 'env-var';
+
+const PORT = env.get('PORT').asPortNumber() || 3000;
+const NODE_ENV = env.get('NODE_ENV').asString() ?? 'unknown environment';
 
 const app = express();
 
@@ -10,7 +14,6 @@ app.get('/ping', (_, res) => {
   res.send('pong');
 });
 
-const port = 8080;
-app.listen(port, () => {
-  console.log(`Server listening on port ${port} (${process.env.NODE_ENV ?? 'unknown environment'})`);
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT} (${NODE_ENV})`);
 });
