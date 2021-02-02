@@ -20,4 +20,7 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
+  rules: {
+    'no-console': 'off', // backend can use logging
+  },
 };
