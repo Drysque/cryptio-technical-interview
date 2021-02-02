@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import * as env from 'env-var';
 
-const PORT = env.get('PORT').asPortNumber() || 3000;
+const PORT = env.get('PORT').asPortNumber() || 8080;
 const NODE_ENV = env.get('NODE_ENV').asString() ?? 'unknown environment';
 
 const app = express();
