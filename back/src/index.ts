@@ -12,9 +12,7 @@ const app = express();
 // Enable CORS for *
 app.use(cors());
 
-app.get('/ping', (_, res) => {
-  res.send('pong');
-});
+app.get('/health', (_, res) => res.send());
 
 app.use('/crypto', CryptoRouter);
 
