@@ -14,12 +14,15 @@ router.get('/address', (req, res) => {
 
   const page = typeof p === 'string' ? +p : undefined;
 
+  console.log({ addr, page });
+
   return getRawAddressInfo(addr, page ? Math.floor(page / (API_LIMIT / pagination)) : 0)
     .then((rawInfo) => {
       const { txs, ...info } = rawInfo;
       if (page === undefined) return res.send(info);
 
       const offset = (page % (API_LIMIT / pagination)) * pagination;
+      console.log({ start: offset, end: offset + pagination });
       return res.send(txs.slice(offset, offset + pagination));
     })
     .catch((err: Error) => {
