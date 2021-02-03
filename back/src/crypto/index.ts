@@ -1,17 +1,27 @@
 import { Router } from 'express';
 import HttpStatus from 'http-status-codes';
 
-import { getAddressInfo, ApiError } from './remote_api';
+import { getRawAddressInfo, ApiError, API_LIMIT } from './remote_api';
 
 const router = Router();
 
+const pagination = 10;
+
 router.get('/address', (req, res) => {
-  const { a: addr } = req.query;
+  const { a: addr, p } = req.query;
 
   if (typeof addr !== 'string') return res.sendStatus(HttpStatus.BAD_REQUEST);
 
-  return getAddressInfo(addr)
-    .then((info) => res.send(info))
+  const page = typeof p === 'string' ? +p : undefined;
+
+  return getRawAddressInfo(addr, page ? Math.floor(page / (API_LIMIT / pagination)) : 0)
+    .then((rawInfo) => {
+      const { txs, ...info } = rawInfo;
+      if (page === undefined) return res.send(info);
+
+      const offset = (page % (API_LIMIT / pagination)) * pagination;
+      return res.send(txs.slice(offset, offset + pagination));
+    })
     .catch((err: Error) => {
       if (err instanceof ApiError) return res.status(err.status).send(err.message);
       console.error(err);

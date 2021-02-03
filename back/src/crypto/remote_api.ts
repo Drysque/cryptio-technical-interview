@@ -16,6 +16,7 @@ export class ApiError extends Error {
 
 const API_ENDPOINT = 'https://blockchain.info/rawaddr';
 const INVALID_ADDRESS_MESSAGE = 'Invalid Bitcoin Address';
+export const API_LIMIT = 50;
 
 type Out = {
   spent: boolean;
@@ -64,17 +65,20 @@ type ApiResponse = {
   }[];
 };
 
-export const getAddressInfo = (addr: string): Promise<ApiResponse> => {
-  const cachedResponse = cache.get(addr) as ApiResponse;
+export const getRawAddressInfo = (addr: string, page: number): Promise<ApiResponse> => {
+  const cacheKey = `${addr}:${page}`;
+  const cachedResponse = cache.get(cacheKey) as ApiResponse;
 
   if (cachedResponse) {
     console.log('returning address data from cache');
     return Promise.resolve(cachedResponse);
   }
 
+  const offset = page * API_LIMIT;
+
   return axios
-    .get(`${API_ENDPOINT}/${addr}`)
-    .then(({ data }) => cache.put<ApiResponse>(addr, data, 3600 * 1000))
+    .get(`${API_ENDPOINT}/${addr}`, { params: { offset } })
+    .then(({ data }) => cache.put<ApiResponse>(cacheKey, data, 3600 * 1000))
     .catch((err: AxiosError) => {
       if (err.isAxiosError && err.response) {
         if (err.response.status === HttpStatus.TOO_MANY_REQUESTS)
