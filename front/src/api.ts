@@ -12,5 +12,5 @@ export const getHealth = (): Promise<void> =>
 export const getAddressInfo = (addr: string): Promise<void> =>
   axios.get(`${API_ENDPOINT}/crypto/address`, { params: { a: addr } });
 
-export const getAddressTransaction = (addr: string, page: number): Promise<void> =>
-  axios.get(`${API_ENDPOINT}/crypto/address`, { params: { a: addr, p: page } });
+export const getAddressTransaction = (addr: string, page: number, pagination: number): Promise<void> =>
+  axios.get(`${API_ENDPOINT}/crypto/transactions`, { params: { a: addr, p: page, pg: pagination } });
