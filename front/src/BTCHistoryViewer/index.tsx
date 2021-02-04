@@ -3,8 +3,6 @@ import { useParams, useHistory } from 'react-router-dom';
 import { IconButton, Card, CardContent, Typography, Grid, Container, TablePagination } from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
 
-import './index.css';
-
 interface ParamTypes {
   addr: string;
 }
