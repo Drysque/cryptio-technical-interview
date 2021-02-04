@@ -33,7 +33,8 @@ router.get('/transactions', (req, res) => {
   if (Number.isNaN(page) || page < 0) return res.sendStatus(HttpStatus.BAD_REQUEST);
 
   const pagination = typeof pg === 'undefined' ? 10 : +pg;
-  if (Number.isNaN(pagination) || pagination <= 0 || pagination > API_LIMIT) return res.sendStatus(HttpStatus.BAD_REQUEST);
+  if (Number.isNaN(pagination) || pagination <= 0 || pagination > API_LIMIT)
+    return res.sendStatus(HttpStatus.BAD_REQUEST);
 
   const offset = (page % (API_LIMIT / pagination)) * pagination;
   console.log({
