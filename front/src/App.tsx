@@ -1,43 +1,38 @@
-import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Alert } from '@material-ui/lab';
 
-function App(): JSX.Element {
-  const [address, setAddress] = useState('');
+import AppBar from 'AppBar';
+import Search from 'Search';
+import BTCHistoryViewer from 'BTCHistoryViewer';
+import { getHealth } from 'api';
+
+export default (): JSX.Element => {
   const [APIIsLive, setAPIIsLive] = useState(false);
 
-  useState(() => {
-    axios
-      .get('http://localhost:8080/ping')
-      .then((resp) => setAPIIsLive(resp.data === 'pong'))
-      .catch((err) => {
-        console.error(err);
-        setAPIIsLive(false);
-      });
-  });
+  useEffect(() => {
+    getHealth()
+      .then(() => setAPIIsLive(true))
+      .catch(() => setAPIIsLive(false));
+  }, []);
 
   return (
-    <div style={{ maxWidth: '42em', margin: '0 auto' }}>
-      <p style={{ fontWeight: 'bold' }}>Bitcoin Historical Balances</p>
-      <input
-        type="text"
-        placeholder="Please input a valid Bitcoin address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
-      <input style={{ marginLeft: '1em' }} type="submit" value="Go!" />
-
-      {address !== '' ? (
-        <p>
-          Historical balances for address <code>{address}</code> should appear here...
-        </p>
+    <>
+      <AppBar />
+      {APIIsLive ? (
+        <Router>
+          <Switch>
+            <Route path="/:addr">
+              <BTCHistoryViewer />
+            </Route>
+            <Route path="/">
+              <Search />
+            </Route>
+          </Switch>
+        </Router>
       ) : (
-        <p>There is no address...</p>
+        <Alert severity="error">API did not respond</Alert>
       )}
-
-      <hr />
-      {APIIsLive ? <p>The API is live!</p> : <p style={{ color: 'red' }}>The API did not respond...</p>}
-    </div>
+    </>
   );
-}
-
-export default App;
+};
