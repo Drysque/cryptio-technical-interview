@@ -9,16 +9,8 @@ export const getHealth = (): Promise<void> =>
     .then(() => Promise.resolve())
     .catch((err) => Promise.reject(err));
 
-export const getAddressInfo = (addr: string): void => {
-  axios
-    .get(`${API_ENDPOINT}/crypto/address`, { params: { a: addr } })
-    .then(console.log)
-    .catch(console.error);
-};
+export const getAddressInfo = (addr: string): Promise<void> =>
+  axios.get(`${API_ENDPOINT}/crypto/address`, { params: { a: addr } });
 
-export const getAddressTransaction = (addr: string, page: number): void => {
-  axios
-    .get(`${API_ENDPOINT}/crypto/address`, { params: { a: addr, p: page } })
-    .then(console.log)
-    .catch(console.error);
-};
+export const getAddressTransaction = (addr: string, page: number): Promise<void> =>
+  axios.get(`${API_ENDPOINT}/crypto/address`, { params: { a: addr, p: page } });
