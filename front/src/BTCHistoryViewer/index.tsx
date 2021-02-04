@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { IconButton, Card, CardContent, Typography, Grid, Container, TablePagination } from '@material-ui/core';
 import { KeyboardArrowLeft } from '@material-ui/icons';
+
+import { getAddressTransaction } from 'api';
 
 interface ParamTypes {
   addr: string;
@@ -13,6 +15,10 @@ export default (): JSX.Element => {
 
   const [page, setPage] = useState(2);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  useEffect(() => {
+    getAddressTransaction(addr, page, rowsPerPage);
+  }, [page]);
 
   return (
     <>
