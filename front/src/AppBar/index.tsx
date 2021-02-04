@@ -1,7 +1,7 @@
 import { AppBar, IconButton, Toolbar } from '@material-ui/core';
 import { GitHub } from '@material-ui/icons/';
 
-export default () => {
+export default (): JSX.Element => {
   const openGithub = () => window.open('https://github.com/Drysque/cryptio-technical-interview');
 
   return (
