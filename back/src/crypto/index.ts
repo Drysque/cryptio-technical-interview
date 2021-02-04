@@ -30,10 +30,10 @@ router.get('/transactions', (req, res) => {
   if (typeof addr !== 'string') return res.sendStatus(HttpStatus.BAD_REQUEST);
 
   const page = typeof p === 'undefined' ? 0 : +p;
-  if (isNaN(page) || page < 0) return res.sendStatus(HttpStatus.BAD_REQUEST);
+  if (Number.isNaN(page) || page < 0) return res.sendStatus(HttpStatus.BAD_REQUEST);
 
   const pagination = typeof pg === 'undefined' ? 10 : +pg;
-  if (isNaN(pagination) || pagination <= 0 || pagination > API_LIMIT) return res.sendStatus(HttpStatus.BAD_REQUEST);
+  if (Number.isNaN(pagination) || pagination <= 0 || pagination > API_LIMIT) return res.sendStatus(HttpStatus.BAD_REQUEST);
 
   const offset = (page % (API_LIMIT / pagination)) * pagination;
   console.log({
