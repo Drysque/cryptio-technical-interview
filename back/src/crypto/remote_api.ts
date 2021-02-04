@@ -65,7 +65,7 @@ type ApiResponse = {
   }[];
 };
 
-export const getRawAddressInfo = (addr: string, page: number): Promise<ApiResponse> => {
+export const getRawAddressInfo = (addr: string, page: number = 0): Promise<ApiResponse> => {
   const cacheKey = `${addr}:${page}`;
   const cachedResponse = cache.get(cacheKey) as ApiResponse;
 
