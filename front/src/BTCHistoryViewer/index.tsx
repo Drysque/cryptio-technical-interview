@@ -87,7 +87,6 @@ function Row({ row, me }: { row: Transaction; me: string }) {
                   <TableRow>
                     <TableCell>Address</TableCell>
                     <TableCell>Value</TableCell>
-                    <TableCell>Spent</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -97,7 +96,6 @@ function Row({ row, me }: { row: Transaction; me: string }) {
                       <TableCell style={{ color: prev_out.addr !== me ? 'black' : 'red' }}>{`${
                         prev_out.addr !== me ? '' : '-'
                       }${prev_out.value}`}</TableCell>
-                      <TableCell>{prev_out.spent ? 'yes' : 'no'}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -112,7 +110,6 @@ function Row({ row, me }: { row: Transaction; me: string }) {
                   <TableRow>
                     <TableCell>Address</TableCell>
                     <TableCell>Value</TableCell>
-                    <TableCell>Spent</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -122,7 +119,6 @@ function Row({ row, me }: { row: Transaction; me: string }) {
                       <TableCell style={{ color: output.addr !== me ? 'black' : 'green' }}>{`${
                         output.addr !== me ? '' : '+'
                       }${output.value}`}</TableCell>
-                      <TableCell>{output.spent ? 'yes' : 'no'}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
