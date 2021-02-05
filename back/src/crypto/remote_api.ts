@@ -89,7 +89,10 @@ export const getRawAddressInfo = (addr: string, page = 0): Promise<ApiResponse> 
         if (err.response.status === HttpStatus.TOO_MANY_REQUESTS)
           return Promise.reject(new ApiError(HttpStatus.TOO_MANY_REQUESTS));
 
-        if (err.response.status === HttpStatus.INTERNAL_SERVER_ERROR && err.response.data === INVALID_ADDRESS_MESSAGE)
+        const invalid =
+          err.response.data === INVALID_ADDRESS_MESSAGE || err.response.data.startsWith('Invalid address:');
+
+        if (err.response.status === HttpStatus.INTERNAL_SERVER_ERROR && invalid)
           return Promise.reject(new ApiError(HttpStatus.NOT_FOUND));
       }
       return Promise.reject(err);
