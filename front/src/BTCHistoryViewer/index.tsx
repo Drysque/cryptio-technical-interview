@@ -29,7 +29,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import { getAddressTransaction, getAddressInfo, InfoResponse, TransactionResponse, Transaction } from 'api';
 
-const useRowStyles = makeStyles({
+const useStyle = makeStyles({
   root: {
     '& > *': {
       borderBottom: 'unset',
@@ -46,7 +46,7 @@ interface ParamTypes {
 
 function Row({ row, me }: { row: Transaction; me: string }) {
   const [open, setOpen] = useState(false);
-  const classes = useRowStyles();
+  const classes = useStyle();
 
   const hashEllipsis = (hash: string) => `${hash.substr(0, 10)}...${hash.substr(hash.length - 10, hash.length)}`;
 
