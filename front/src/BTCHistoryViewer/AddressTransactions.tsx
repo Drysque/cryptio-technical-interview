@@ -18,6 +18,12 @@ const useStyle = makeStyles({
     maxWidth: 'none',
   },
   padded: { paddingBottom: 0, paddingTop: 0 },
+  gain: {
+    color: 'green',
+  },
+  loss: {
+    color: 'red',
+  },
 });
 
 type PropsTypes = { row: Transaction; me: string };
@@ -64,7 +70,7 @@ export default ({ row, me }: PropsTypes): JSX.Element => {
         <TCell>{row.vin_sz}</TCell>
         <TCell>{row.vout_sz}</TCell>
 
-        <TCell style={{ color: row.result < 0 ? 'red' : 'green' }}>
+        <TCell className={row.result < 0 ? classes.loss : classes.gain}>
           {row.result > 0 && '+'}
           {row.result}
         </TCell>

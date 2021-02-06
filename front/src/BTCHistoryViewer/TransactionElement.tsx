@@ -16,6 +16,12 @@ const useStyle = makeStyles({
   me: {
     color: 'blue',
   },
+  gain: {
+    color: 'green',
+  },
+  loss: {
+    color: 'red',
+  },
 });
 
 type PropsTypes = {
@@ -32,7 +38,7 @@ export default ({ rows, name, gain, me }: PropsTypes): JSX.Element => {
   if (!rows.length) return <></>;
 
   const getColor = (addr: string) => {
-    if (addr === me && !txsCompact) return gain ? 'green' : 'red';
+    if (addr === me && !txsCompact) return gain ? classes.gain : classes.loss;
     return undefined;
   };
 
@@ -57,7 +63,7 @@ export default ({ rows, name, gain, me }: PropsTypes): JSX.Element => {
 
               <TCell>{script}</TCell>
 
-              <TCell style={{ color: getColor(addr) }}>{value}</TCell>
+              <TCell className={getColor(addr)}>{value}</TCell>
             </TRow>
           ))}
         </TBody>
