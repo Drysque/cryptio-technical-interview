@@ -30,6 +30,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { getAddressTransaction, getAddressInfo, InfoResponse, TransactionResponse, Transaction, Out } from 'api';
 import { useDisplay } from 'context';
 
+import BalanceChart from './BalanceChart';
+
 const useStyle = makeStyles({
   root: {
     '& > *': {
@@ -197,6 +199,7 @@ export default (): JSX.Element => {
 
                     <Divider component="li" />
 
+                    <BalanceChart data={txs ?? []} />
                     <ListItem>
                       <ListItemText primary="Transactions" />
                     </ListItem>
