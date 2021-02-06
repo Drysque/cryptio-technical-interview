@@ -27,7 +27,8 @@ import {
 import { KeyboardArrowLeft, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { getAddressTransaction, getAddressInfo, InfoResponse, TransactionResponse, Transaction } from 'api';
+import { getAddressTransaction, getAddressInfo, InfoResponse, TransactionResponse, Transaction, Out } from 'api';
+import { useDisplay } from 'context';
 
 const useStyle = makeStyles({
   root: {
