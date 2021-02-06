@@ -7,6 +7,7 @@ import AppBar from 'AppBar';
 import Search from 'Search';
 import BTCHistoryViewer from 'BTCHistoryViewer';
 import { getHealth } from 'api';
+import { DisplayProvider } from 'context';
 
 export default (): JSX.Element => {
   const [APIIsLive, setAPIIsLive] = useState<boolean | undefined>(undefined);
@@ -18,7 +19,7 @@ export default (): JSX.Element => {
   }, []);
 
   return (
-    <>
+    <DisplayProvider>
       <AppBar />
       {(() => {
         switch (APIIsLive) {
@@ -41,6 +42,6 @@ export default (): JSX.Element => {
             return <LinearProgress />;
         }
       })()}
-    </>
+    </DisplayProvider>
   );
 };
