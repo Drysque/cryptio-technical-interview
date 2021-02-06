@@ -1,20 +1,29 @@
 import React from 'react';
 import { AppBar, IconButton, Toolbar, Typography, Grid, Switch as MatSwitch, Tooltip } from '@material-ui/core';
 import { GitHub, ViewStream, ViewHeadline } from '@material-ui/icons/';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { useDisplay } from 'context';
 
+const useStyle = makeStyles({
+  floatRight: {
+    float: 'right',
+  },
+});
+
 const Switch = () => {
   const [{ txsCompact }, setDisplay] = useDisplay();
+  const classes = useStyle();
 
   return (
-    <Typography component="div" style={{ float: 'right' }}>
+    <Typography component="div" className={classes.floatRight}>
       <Grid component="label" container alignItems="flex-end">
         <Grid item>
           <Tooltip arrow title="Detailled View">
             <ViewHeadline />
           </Tooltip>
         </Grid>
+
         <Grid item>
           <MatSwitch
             checked={txsCompact}
@@ -27,6 +36,7 @@ const Switch = () => {
             color="default"
           />
         </Grid>
+
         <Grid item>
           <Tooltip arrow title="Compact View">
             <ViewStream />
@@ -50,6 +60,7 @@ export default (): JSX.Element => {
               <GitHub />
             </IconButton>
           </Grid>
+
           <Grid item>
             <Switch />
           </Grid>

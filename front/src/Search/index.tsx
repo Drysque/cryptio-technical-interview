@@ -5,7 +5,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Search, Clear } from '@material-ui/icons/';
 import { useHistory } from 'react-router-dom';
 
-
 import { getAddressInfo } from '../api';
 
 const useStyle = makeStyles({
@@ -63,10 +62,12 @@ export default (): JSX.Element => {
             disabled={loading}
           />
         </CardContent>
+
         <CardActions>
           <IconButton disabled={loading || !addr.length} edge="end" onClick={handleClear}>
             <Clear />
           </IconButton>
+
           <IconButton disabled={loading || !validAddress(addr)} edge="end" onClick={handleClick}>
             <Search />
           </IconButton>
