@@ -45,11 +45,54 @@ interface ParamTypes {
   addr: string;
 }
 
+function HistoryElement({ rows, name, meColor, me }: { rows: Out[]; name: string; meColor: string; me: string }) {
+  if (!rows.length) return null;
+
+  const [{ txsCompact }] = useDisplay();
+
+  return (
+    <Box margin={1}>
+      <Typography variant="h6" gutterBottom component="div">
+        {name}
+      </Typography>
+      <Table size="small">
+        <TableHead>
+          <TableRow>
+            <TableCell>Address</TableCell>
+            <TableCell>Script</TableCell>
+            <TableCell>Value</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(({ addr, value, script }, i) => (
+            <TableRow key={i}>
+              <TableCell style={{ color: addr === me && !txsCompact ? 'blue' : undefined }}>
+                {txsCompact ? 'You' : addr}
+              </TableCell>
+
+              <TableCell>{script}</TableCell>
+              <TableCell style={{ color: addr === me && !txsCompact ? meColor : undefined }}>{value}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Box>
+  );
+}
+
 function Row({ row, me }: { row: Transaction; me: string }) {
   const [open, setOpen] = useState(false);
   const classes = useStyle();
 
+  const [{ txsCompact }] = useDisplay();
+
   const hashEllipsis = (hash: string) => `${hash.substr(0, 10)}...${hash.substr(hash.length - 10, hash.length)}`;
+
+  const maybeDisplay = (o: Out) => !txsCompact || o.addr === me;
+  const inputs = (
+    <HistoryElement rows={row.inputs.map((i) => i.prev_out).filter(maybeDisplay)} me={me} name="Inputs" meColor="red" />
+  );
+  const outputs = <HistoryElement rows={row.out.filter(maybeDisplay)} me={me} name="Outputs" meColor="green" />;
 
   return (
     <Fragment>
@@ -82,48 +125,8 @@ function Row({ row, me }: { row: Transaction; me: string }) {
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
           <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                Inputs
-              </Typography>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Address</TableCell>
-                    <TableCell>Value</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.inputs.map(({ prev_out }) => (
-                    <TableRow key={prev_out.n}>
-                      <TableCell style={{ color: prev_out.addr === me ? 'blue' : 'black' }}>{prev_out.addr}</TableCell>
-                      <TableCell style={{ color: prev_out.addr !== me ? 'black' : 'red' }}>{prev_out.value}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
-            <Box margin={1}>
-              <Typography variant="h6" gutterBottom component="div">
-                Outputs
-              </Typography>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Address</TableCell>
-                    <TableCell>Value</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.out.map((output) => (
-                    <TableRow key={output.n}>
-                      <TableCell style={{ color: output.addr === me ? 'blue' : 'black' }}>{output.addr}</TableCell>
-                      <TableCell style={{ color: output.addr !== me ? 'black' : 'green' }}>{output.value}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
+            {inputs}
+            {outputs}
           </Collapse>
         </TableCell>
       </TableRow>
@@ -213,6 +216,7 @@ export default (): JSX.Element => {
                               <TableCell>Result</TableCell>
                             </TableRow>
                           </TableHead>
+
                           <TableBody>
                             {txs
                               ?.sort((l, r) => l.time - r.time)
@@ -220,6 +224,7 @@ export default (): JSX.Element => {
                                 <Row key={t.hash} row={t} me={info.address} />
                               ))}
                           </TableBody>
+
                           <TableFooter>
                             <TableRow>
                               <TablePagination
