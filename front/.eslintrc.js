@@ -23,5 +23,14 @@ module.exports = {
   rules: {
     'no-console': 'off', // useful for debugging, even in production
     'prettier/prettier': 0,
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        ts: 'never',
+        tsx: 'never',
+        '': 'never',
+      },
+    ],
   },
 };
