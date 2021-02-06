@@ -1,16 +1,21 @@
 version: "3"
 services:
   front:
-    build: front
+    build:
+      context: front
+      dockerfile: Dockerfile.dev
     volumes:
       - ./front:/app
     ports:
       - 3000:3000
     environment:
+      - PORT=3000
       - API_ENDPOINT=http://localhost:8080
 
   back:
-    build: back
+    build:
+      context: back
+      dockerfile: Dockerfile.dev
     volumes:
       - ./back:/app
     ports:
