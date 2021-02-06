@@ -73,7 +73,10 @@ function Row({ row, me }: { row: Transaction; me: string }) {
         <TableCell>{row.weight}</TableCell>
         <TableCell>{row.vin_sz}</TableCell>
         <TableCell>{row.vout_sz}</TableCell>
-        <TableCell style={{ color: row.result > 0 ? 'green' : 'red' }}>{row.result}</TableCell>
+        <TableCell style={{ color: row.result < 0 ? 'red' : 'green' }}>
+          {row.result > 0 && '+'}
+          {row.result}
+        </TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
@@ -93,9 +96,7 @@ function Row({ row, me }: { row: Transaction; me: string }) {
                   {row.inputs.map(({ prev_out }) => (
                     <TableRow key={prev_out.n}>
                       <TableCell style={{ color: prev_out.addr === me ? 'blue' : 'black' }}>{prev_out.addr}</TableCell>
-                      <TableCell style={{ color: prev_out.addr !== me ? 'black' : 'red' }}>{`${
-                        prev_out.addr !== me ? '' : '-'
-                      }${prev_out.value}`}</TableCell>
+                      <TableCell style={{ color: prev_out.addr !== me ? 'black' : 'red' }}>{prev_out.value}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -116,9 +117,7 @@ function Row({ row, me }: { row: Transaction; me: string }) {
                   {row.out.map((output) => (
                     <TableRow key={output.n}>
                       <TableCell style={{ color: output.addr === me ? 'blue' : 'black' }}>{output.addr}</TableCell>
-                      <TableCell style={{ color: output.addr !== me ? 'black' : 'green' }}>{`${
-                        output.addr !== me ? '' : '+'
-                      }${output.value}`}</TableCell>
+                      <TableCell style={{ color: output.addr !== me ? 'black' : 'green' }}>{output.value}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -243,7 +242,6 @@ export default (): JSX.Element => {
                 ) : (
                   <>
                     <LinearProgress />
-                    <Divider component="li" />
                   </>
                 )}
               </List>
