@@ -80,19 +80,21 @@ export const getRawAddressInfo = (addr: string, page = 0): Promise<ApiResponse> 
 
   console.log({ url: `${API_ENDPOINT}/${addr}`, params: { offset } });
 
-  const config = { url: `${API_ENDPOINT}/${addr}`, params: { offset } };
-  return Promise.reject(new Error(JSON.stringify(config)));
-  // return axios
-  //   .get(`${API_ENDPOINT}/${addr}`, { params: { offset } })
-  //   .then(({ data }) => cache.put<ApiResponse>(cacheKey, data, 5 * 3600 * 1000))
-  //   .catch((err: AxiosError) => {
-  //     if (err.isAxiosError && err.response) {
-  //       if (err.response.status === HttpStatus.TOO_MANY_REQUESTS)
-  //         return Promise.reject(new ApiError(HttpStatus.TOO_MANY_REQUESTS));
+  // return Promise.reject(new Error(JSON.stringify(config)));
+  return axios
+    .get(`${API_ENDPOINT}/${addr}`, { params: { offset } })
+    .then(({ data }) => cache.put<ApiResponse>(cacheKey, data, 5 * 3600 * 1000))
+    .catch((err: AxiosError) => {
+      if (err.isAxiosError && err.response) {
+        if (err.response.status === HttpStatus.TOO_MANY_REQUESTS)
+          return Promise.reject(new ApiError(HttpStatus.TOO_MANY_REQUESTS));
 
-  //       if (err.response.status === HttpStatus.INTERNAL_SERVER_ERROR && err.response.data === INVALID_ADDRESS_MESSAGE)
-  //         return Promise.reject(new ApiError(HttpStatus.NOT_FOUND));
-  //     }
-  //     return Promise.reject(err);
-  //   });
+        const invalid =
+          err.response.data === INVALID_ADDRESS_MESSAGE || err.response.data.startsWith('Invalid address:');
+
+        if (err.response.status === HttpStatus.INTERNAL_SERVER_ERROR && invalid)
+          return Promise.reject(new ApiError(HttpStatus.NOT_FOUND));
+      }
+      return Promise.reject(err);
+    });
 };

@@ -22,5 +22,6 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off', // useful for debugging, even in production
+    'prettier/prettier': 0,
   },
 };
