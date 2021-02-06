@@ -18,8 +18,6 @@ const defaultDisplay: DisplayType = {
 const DisplayContext = createContext<DisplayContextType>([defaultDisplay, () => undefined]);
 
 const displayReducer = (state: DisplayType, action: DisplayActionType): DisplayType => {
-  console.log({ state, action });
-
   switch (action.type) {
     case 'txs':
       return {

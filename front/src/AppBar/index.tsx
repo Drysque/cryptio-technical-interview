@@ -1,16 +1,20 @@
 import React from 'react';
-import { AppBar, IconButton, Toolbar, Typography, Grid, Switch as MatSwitch } from '@material-ui/core';
-import { GitHub } from '@material-ui/icons/';
+import { AppBar, IconButton, Toolbar, Typography, Grid, Switch as MatSwitch, Tooltip } from '@material-ui/core';
+import { GitHub, ViewStream, ViewHeadline } from '@material-ui/icons/';
 
-import { DisplayProvider, useDisplay } from 'context';
+import { useDisplay } from 'context';
 
 const Switch = () => {
   const [{ txsCompact }, setDisplay] = useDisplay();
 
   return (
     <Typography component="div" style={{ float: 'right' }}>
-      <Grid component="label" container alignItems="center">
-        <Grid item>detailled vue</Grid>
+      <Grid component="label" container alignItems="flex-end">
+        <Grid item>
+          <Tooltip arrow title="Detailled View">
+            <ViewHeadline />
+          </Tooltip>
+        </Grid>
         <Grid item>
           <MatSwitch
             checked={txsCompact}
@@ -23,7 +27,11 @@ const Switch = () => {
             color="default"
           />
         </Grid>
-        <Grid item>compact vue</Grid>
+        <Grid item>
+          <Tooltip arrow title="Compact View">
+            <ViewStream />
+          </Tooltip>
+        </Grid>
       </Grid>
     </Typography>
   );
@@ -32,11 +40,10 @@ const Switch = () => {
 export default (): JSX.Element => {
   const openGithub = () => window.open('https://github.com/Drysque/cryptio-technical-interview');
 
-
   return (
     <AppBar position="static">
       <Toolbar>
-        <Grid justify="space-between" container>
+        <Grid justify="space-between" container alignItems="center">
           <Grid item>
             Bitcoin Historical Balances
             <IconButton edge="end" onClick={openGithub}>
@@ -44,9 +51,7 @@ export default (): JSX.Element => {
             </IconButton>
           </Grid>
           <Grid item>
-            <DisplayProvider>
-              <Switch />
-            </DisplayProvider>
+            <Switch />
           </Grid>
         </Grid>
       </Toolbar>
