@@ -145,20 +145,14 @@ export default (): JSX.Element => {
 
   useEffect(() => {
     getAddressInfo(addr)
-      .then(({ data: i }) => {
-        console.log(i);
-        setInfo(i);
-      })
+      .then(({ data: i }) => setInfo(i))
       .catch(console.error);
   }, []);
 
   useEffect(() => {
     if (!info) return;
     getAddressTransaction(addr, page, rowsPerPage)
-      .then(({ data: t }) => {
-        console.log(t);
-        setTxs(t);
-      })
+      .then(({ data: t }) => setTxs(t))
       .catch(console.error);
   }, [page, rowsPerPage, info]);
 

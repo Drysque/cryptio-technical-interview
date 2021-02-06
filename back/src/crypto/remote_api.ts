@@ -69,20 +69,10 @@ export const getRawAddressInfo = (addr: string, page = 0): Promise<ApiResponse> 
   const cacheKey = `${addr}:${page}`;
   const cachedResponse = cache.get(cacheKey) as ApiResponse;
 
-  console.log({ cacheKey, res: Boolean(cachedResponse) });
+  if (cachedResponse) return Promise.resolve(cachedResponse);
 
-  if (cachedResponse) {
-    console.log('returning address data from cache');
-    return Promise.resolve(cachedResponse);
-  }
-
-  const offset = page * API_LIMIT;
-
-  console.log({ url: `${API_ENDPOINT}/${addr}`, params: { offset } });
-
-  // return Promise.reject(new Error(JSON.stringify(config)));
   return axios
-    .get(`${API_ENDPOINT}/${addr}`, { params: { offset } })
+    .get(`${API_ENDPOINT}/${addr}`, { params: { offset: page * API_LIMIT } })
     .then(({ data }) => cache.put<ApiResponse>(cacheKey, data, 5 * 3600 * 1000))
     .catch((err: AxiosError) => {
       if (err.isAxiosError && err.response) {

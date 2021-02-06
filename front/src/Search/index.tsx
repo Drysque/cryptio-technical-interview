@@ -46,8 +46,6 @@ export default (): JSX.Element => {
 
   const validAddress = (a: string): boolean => {
     const regex = /^(1|3|(bc1))[a-zA-Z0-9]+$/;
-    console.log(a.length < 26, a.length > 35, regex.test(a));
-
     return a.length >= 26 && a.length <= 35 && regex.test(a);
   };
 
