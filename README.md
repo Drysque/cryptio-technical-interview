@@ -21,6 +21,8 @@ To learn more about the subject, head to [the subject file](./Subject.md)
 
     docker-compose -f docker-compose.dev.yml up
 
-#### Notes
+### Notes
 
-To switch between the environment, you wll have to rebuild, or docker-compose will up the other environment from cache
+To switch between the environments, you will have to rebuild, or docker-compose will up the other environment from cache
+
+    docker-compose (-f docker-compose.dev.yml) up --build
