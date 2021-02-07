@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         working-directory: ./back
         run: npm i
-      - name: Build project
+      - name: Lint project
         working-directory: ./back
         run: npm run lint
         env:
