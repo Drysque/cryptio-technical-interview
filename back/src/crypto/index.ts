@@ -10,8 +10,6 @@ router.get('/address', (req, res) => {
 
   if (typeof addr !== 'string') return res.sendStatus(HttpStatus.BAD_REQUEST);
 
-  console.log({ addr });
-
   return getRawAddressInfo(addr)
     .then((rawInfo) => {
       const { txs, ...info } = rawInfo;
@@ -36,19 +34,10 @@ router.get('/transactions', (req, res) => {
   if (Number.isNaN(pagination) || pagination <= 0 || pagination > API_LIMIT)
     return res.sendStatus(HttpStatus.BAD_REQUEST);
 
-  const offset = (page % (API_LIMIT / pagination)) * pagination;
-  console.log({
-    addr,
-    page,
-    pagination,
-    remote_page: Math.floor(page / (API_LIMIT / pagination)),
-    start: offset,
-    end: offset + pagination,
-  });
-
   return getRawAddressInfo(addr, Math.floor(page / (API_LIMIT / pagination)))
     .then((rawInfo) => {
       const { txs } = rawInfo;
+      const offset = (page % (API_LIMIT / pagination)) * pagination;
       return res.send(txs.slice(offset, offset + pagination));
     })
     .catch((err: Error) => {

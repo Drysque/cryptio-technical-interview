@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         working-directory: ./front
         run: npm i
-      - name: Build project
+      - name: Lint project
         working-directory: ./front
         run: npm run lint
         env:

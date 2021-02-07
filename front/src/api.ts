@@ -46,9 +46,9 @@ export type Transaction = {
   block_index: number;
   time: number;
   tx_index: number;
-  vin_sz: number; // inputs.length
+  vin_sz: number;
   hash: string;
-  vout_sz: number; // out.length
+  vout_sz: number;
 };
 
 export type TransactionResponse = Transaction[];
