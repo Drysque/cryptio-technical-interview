@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm i
 
-CMD npm run build
+RUN npm run build
 
 
 FROM node:14-alpine as prod
